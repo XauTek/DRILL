@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMG | Industry Main Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#hero" aria-label="IMG Главная">
+        <span class="logo-main">IMG</span>
+        <span class="logo-sub">Industry Main Group</span>
+      </a>
+      <nav class="main-nav" aria-label="Основная навигация">
+        <a href="#about">О компании</a>
+        <a href="#catalog">Каталог</a>
+        <a href="#request">Заявка</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Горно-шахтное оборудование и буровой инструмент</p>
+          <h1>IMG (Industry Main Group)</h1>
+          <p class="hero-text">
+            [Плейсхолдер: краткое описание компании. Замените на реальный текст о деятельности IMG, географии поставок и ключевых направлениях.]
+          </p>
+          <a class="btn btn-primary" href="#catalog">Перейти в каталог</a>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <p>Поставки оборудования</p>
+          <p>Запасные части</p>
+          <p>Сервис и инструмент</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2>О компании</h2>
+        <div class="about-grid">
+          <article class="panel">
+            <h3>Название компании</h3>
+            <p>[Плейсхолдер: официальное название компании]</p>
+          </article>
+          <article class="panel">
+            <h3>История</h3>
+            <p>[Плейсхолдер: история компании, годы работы, ключевые этапы развития]</p>
+          </article>
+          <article class="panel">
+            <h3>Преимущества</h3>
+            <p>[Плейсхолдер: конкурентные преимущества, сервис, склад, логистика, поддержка]</p>
+          </article>
+          <article class="panel">
+            <h3>Контакты</h3>
+            <p>[Плейсхолдер: email, телефоны, адрес, режим работы]</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog" class="section section-accent">
+      <div class="container">
+        <div class="section-head">
+          <h2>Каталог товаров и услуг</h2>
+          <p>Категории: Оборудование, Запчасти, Услуги-буровой инструмент</p>
+        </div>
+        <div class="category-filter" role="tablist" aria-label="Фильтр каталога">
+          <button class="filter-btn active" data-filter="all">Все</button>
+          <button class="filter-btn" data-filter="Оборудование">Оборудование</button>
+          <button class="filter-btn" data-filter="Запчасти">Запчасти</button>
+          <button class="filter-btn" data-filter="Услуги-буровой инструмент">Услуги-буровой инструмент</button>
+        </div>
+        <div id="catalogGrid" class="catalog-grid"></div>
+      </div>
+    </section>
+
+    <section id="request" class="section section-dark">
+      <div class="container">
+        <h2>Оставить заявку</h2>
+        <p>
+          Заявка отправляется на корпоративную почту через серверную обработку PHP.
+        </p>
+        <form id="requestForm" class="request-form" novalidate>
+          <label>
+            ФИО
+            <input id="fullName" name="fullName" type="text" placeholder="Иванов Иван Иванович" required>
+          </label>
+          <label>
+            Телефон
+            <input id="phone" name="phone" type="tel" placeholder="+7 (900) 000-00-00" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Отправить заявку</button>
+          <p id="formStatus" class="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="productModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button id="modalClose" class="modal-close" aria-label="Закрыть">×</button>
+      <img id="modalImage" src="" alt="Изображение товара">
+      <h3 id="modalTitle"></h3>
+      <p id="modalCategory" class="modal-category"></p>
+      <p id="modalDescription"></p>
+      <ul id="modalSpecs" class="spec-list"></ul>
+      <p id="modalPrice" class="modal-price"></p>
+    </div>
+  </div>
+</body>
+</html>
