@@ -50,11 +50,11 @@ if (!preg_match('/^(\+7|8)\d{10}$/', $phoneNormalized)) {
     exit;
 }
 
-// TODO: Replace with actual corporate mailbox.
-$to = 'sales@img-company.ru';
+// Corporate mailbox for incoming requests.
+$to = 'andrienko@img-industry.ru';
 
-// Use a real sender from your domain.
-$from = 'noreply@img-company.ru';
+// Sender from the same domain for better deliverability.
+$from = 'noreply@img-industry.ru';
 
 $subject = '=?UTF-8?B?' . base64_encode('New lead from IMG website') . '?=';
 $message = "New lead from IMG website\n\n"
