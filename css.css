@@ -85,13 +85,28 @@ body {
 
 .hero {
   padding: 74px 0 48px;
+  background:
+    linear-gradient(100deg, rgba(18, 14, 9, 0.72), rgba(18, 14, 9, 0.38)),
+    url("img/bg.webp") center / cover no-repeat;
+}
+
+.hero h1 {
+  color: #fff;
+}
+
+.hero .hero-text {
+  color: #f3e7cf;
+}
+
+.hero .eyebrow {
+  color: #e5be78;
 }
 
 .hero-grid {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   gap: 28px;
-  align-items: stretch;
+  align-items: start;
 }
 
 .eyebrow {
@@ -122,25 +137,13 @@ h2 {
 }
 
 .hero-card {
-  border-radius: 20px;
-  padding: 28px;
-  background:
-    linear-gradient(140deg, rgba(255, 255, 255, 0.6), transparent 35%),
-    linear-gradient(320deg, rgba(138, 95, 36, 0.8), rgba(190, 146, 77, 0.86));
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 14px;
-  min-height: 230px;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  display: block;
+  align-self: start;
+  justify-self: end;
   box-shadow: 0 18px 32px var(--shadow);
-  clip-path: polygon(0 0, 82% 0, 100% 25%, 100% 100%, 0 100%);
-}
-
-.hero-card p {
-  margin: 0;
-  font-size: 1.06rem;
-  font-weight: 600;
 }
 
 .section {
@@ -435,10 +438,37 @@ h2 {
   color: #fff;
 }
 
+.map-link {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 30px;
+  border: 1px solid #6f5634;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.map-link svg {
+  width: 18px;
+  height: 18px;
+  fill: #f6ebd3;
+  flex-shrink: 0;
+}
+
+.map-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
 @media (max-width: 980px) {
   .hero-grid,
   .catalog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-card {
+    justify-self: center;
+    max-width: 460px;
   }
 }
 
@@ -464,8 +494,7 @@ h2 {
   }
 
   .hero-card {
-    min-height: 170px;
-    clip-path: none;
+    max-width: 100%;
     border-radius: 14px;
   }
 

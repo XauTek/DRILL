@@ -80,7 +80,7 @@ const DEFAULT_PRODUCTS = [
 ];
 
 let products = [...DEFAULT_PRODUCTS];
-let currentFilter = "all";
+let currentFilter = "Оборудование";
 
 const catalogGrid = document.getElementById("catalogGrid");
 const modal = document.getElementById("productModal");
@@ -103,7 +103,8 @@ function normalizeSpecs(specsRaw) {
 }
 
 function renderProducts() {
-  const list = currentFilter === "all" ? products : products.filter((item) => item.category === currentFilter);
+  if (!catalogGrid) return;
+  const list = products.filter((item) => item.category === currentFilter);
 
   if (!list.length) {
     catalogGrid.innerHTML = "<p>По выбранному фильтру товары не найдены.</p>";
@@ -127,6 +128,7 @@ function renderProducts() {
 }
 
 function openModalById(id) {
+  if (!modal) return;
   const product = products.find((item) => item.id === id);
   if (!product) return;
 
@@ -147,6 +149,7 @@ function openModalById(id) {
 }
 
 function closeModal() {
+  if (!modal) return;
   modal.classList.remove("open");
   modal.setAttribute("aria-hidden", "true");
 }
@@ -215,27 +218,38 @@ function initEvents() {
   document.querySelectorAll(".filter-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".filter-btn").forEach((item) => item.classList.remove("active"));
+      document.querySelectorAll(".filter-btn").forEach((item) => item.setAttribute("aria-selected", "false"));
       btn.classList.add("active");
+      btn.setAttribute("aria-selected", "true");
       currentFilter = btn.dataset.filter;
       renderProducts();
     });
   });
 
-  catalogGrid.addEventListener("click", (event) => {
-    const button = event.target.closest("button[data-id]");
-    if (!button) return;
-    openModalById(button.dataset.id);
-  });
+  if (catalogGrid) {
+    catalogGrid.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-id]");
+      if (!button) return;
+      openModalById(button.dataset.id);
+    });
+  }
 
-  modalClose.addEventListener("click", closeModal);
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal();
-  });
+  if (modalClose) {
+    modalClose.addEventListener("click", closeModal);
+  }
+  if (modal) {
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+  }
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeModal();
+    if (event.key === "Escape" && modal && modal.classList.contains("open")) closeModal();
   });
 
-  document.getElementById("requestForm").addEventListener("submit", handleFormSubmit);
+  const requestForm = document.getElementById("requestForm");
+  if (requestForm) {
+    requestForm.addEventListener("submit", handleFormSubmit);
+  }
 }
 
 renderProducts();

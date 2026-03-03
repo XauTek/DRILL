@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Industry Main Group</title>
+  <title>Каталог | Industry Main Group</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,67 +13,31 @@
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="logo" href="#hero" aria-label="IMG Главная">
+      <a class="logo" href="main.html#hero" aria-label="IMG Главная">
         <span class="logo-main">IMG</span>
         <span class="logo-sub">Industry Main Group</span>
       </a>
       <nav class="main-nav" aria-label="Основная навигация">
-        <a href="#about">О компании</a>
+        <a href="main.html#about">О компании</a>
         <a href="catalog.html">Каталог</a>
-        <a href="#request">Заявка</a>
+        <a href="main.html#request">Заявка</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section id="hero" class="hero">
-      <div class="container hero-grid">
-        <div>
-          <p class="eyebrow">Горно-шахтное оборудование и буровой инструмент</p>
-          <h1>IMG (Индастри Майн Групп)</h1>
-          <p class="hero-text">
-            [Плейс]
-          </p>
-          <a class="btn btn-primary" href="catalog.html">Перейти в каталог</a>
-        </div>
-        <img class="hero-card" src="img/prom_card.png" alt="Промо-карточка оборудования IMG">
-      </div>
-    </section>
-
-    <section id="about" class="section">
+    <section id="catalog" class="section section-accent">
       <div class="container">
-        <h2>О компании</h2>
-        <div class="about-grid">
-          <article class="panel">
-            <h3>История</h3>
-            <p>[Плейс]</p>
-          </article>
-          <article class="panel">
-            <h3>Преимущества</h3>
-            <p>[Плейс]</p>
-          </article>
+        <div class="section-head">
+          <h2>Каталог товаров и услуг</h2>
+          <p>Выберите вкладку с нужным направлением.</p>
         </div>
-      </div>
-    </section>
-
-    <section id="request" class="section section-dark">
-      <div class="container">
-        <h2>Оставить заявку</h2>
-        <p>
-          Заявка отправляется на корпоративную почту через серверную обработку PHP.
-        </p>
-        <form id="requestForm" class="request-form" novalidate>
-          <label>
-            ФИО
-            <input id="fullName" name="fullName" type="text" placeholder="Иванов Иван Иванович" required>
-          </label>
-          <label>
-            Телефон
-            <input id="phone" name="phone" type="tel" placeholder="+7 (900) 000-00-00" required>
-          </label>
-          <button class="btn btn-primary" type="submit">Отправить заявку</button>
-          <p id="formStatus" class="status" aria-live="polite"></p>
-        </form>
+        <div class="category-filter" role="tablist" aria-label="Вкладки каталога">
+          <button class="filter-btn active" data-filter="Оборудование" role="tab" aria-selected="true">Буровое оборудование</button>
+          <button class="filter-btn" data-filter="Запчасти" role="tab" aria-selected="false">Запчасти</button>
+          <button class="filter-btn" data-filter="Услуги-буровой инструмент" role="tab" aria-selected="false">Буровой инструмент</button>
+        </div>
+        <div id="catalogGrid" class="catalog-grid"></div>
       </div>
     </section>
   </main>
@@ -104,5 +68,16 @@
     </div>
   </footer>
 
+  <div id="productModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button id="modalClose" class="modal-close" aria-label="Закрыть">×</button>
+      <img id="modalImage" src="" alt="Изображение товара">
+      <h3 id="modalTitle"></h3>
+      <p id="modalCategory" class="modal-category"></p>
+      <p id="modalDescription"></p>
+      <ul id="modalSpecs" class="spec-list"></ul>
+      <p id="modalPrice" class="modal-price"></p>
+    </div>
+  </div>
 </body>
 </html>
