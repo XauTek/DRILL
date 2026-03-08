@@ -21,12 +21,13 @@ if (!is_array($json)) {
 
 $fullName = isset($json['fullName']) ? trim((string)$json['fullName']) : '';
 $phone = isset($json['phone']) ? trim((string)$json['phone']) : '';
+$email = isset($json['email']) ? trim((string)$json['email']) : '';
 
-if ($fullName === '' || $phone === '') {
+if ($fullName === '' || $phone === '' || $email === '') {
     http_response_code(422);
     echo json_encode([
         'success' => false,
-        'message' => 'Full name and phone are required.'
+        'message' => 'Full name, phone and email are required.'
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
@@ -50,8 +51,17 @@ if (!preg_match('/^(\+7|8)\d{10}$/', $phoneNormalized)) {
     exit;
 }
 
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(422);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid email format.'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 // Corporate mailbox for incoming requests.
-$to = 'andrienko@img-industry.ru';
+$to = 'popovdanila054@gmail.ru';
 
 // Sender from the same domain for better deliverability.
 $from = 'noreply@img-industry.ru';
@@ -60,11 +70,12 @@ $subject = '=?UTF-8?B?' . base64_encode('New lead from IMG website') . '?=';
 $message = "New lead from IMG website\n\n"
     . "Full name: {$fullName}\n"
     . "Phone: {$phone}\n"
+    . "Email: {$email}\n"
     . "Date: " . date('Y-m-d H:i:s') . "\n"
     . "IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
 
 $headers = "From: {$from}\r\n"
-    . "Reply-To: {$from}\r\n"
+    . "Reply-To: {$email}\r\n"
     . "MIME-Version: 1.0\r\n"
     . "Content-Type: text/plain; charset=UTF-8\r\n";
 

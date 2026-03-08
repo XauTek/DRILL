@@ -414,15 +414,21 @@ function validatePhone(value) {
   return /^(\+7|8)\d{10}$/.test(cleaned);
 }
 
+function validateEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+}
+
 async function handleFormSubmit(event) {
   event.preventDefault();
 
   const fullNameInput = document.getElementById("fullName");
   const phoneInput = document.getElementById("phone");
+  const emailInput = document.getElementById("email");
   const status = document.getElementById("formStatus");
 
   const fullName = fullNameInput.value;
   const phone = phoneInput.value;
+  const email = emailInput.value;
 
   if (!validateFullName(fullName)) {
     setStatus(status, "Введите корректное ФИО (минимум 5 символов).", "error");
@@ -434,6 +440,11 @@ async function handleFormSubmit(event) {
     return;
   }
 
+  if (!validateEmail(email)) {
+    setStatus(status, "Введите корректный email (например, name@example.com).", "error");
+    return;
+  }
+
   try {
     const response = await fetch("send_request.php", {
       method: "POST",
@@ -442,7 +453,8 @@ async function handleFormSubmit(event) {
       },
       body: JSON.stringify({
         fullName: fullName.trim(),
-        phone: phone.trim()
+        phone: phone.trim(),
+        email: email.trim()
       })
     });
 
@@ -509,3 +521,4 @@ fillEnginePurposeSort();
 toggleEngineSortVisibility();
 renderProducts();
 initEvents();
+
