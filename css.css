@@ -17,6 +17,9 @@ body {
   margin: 0;
   font-family: Montserrat, sans-serif;
   color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background:
     radial-gradient(circle at 85% 10%, rgba(177, 130, 58, 0.1) 0%, transparent 35%),
     linear-gradient(180deg, #f9f6eb 0%, var(--bg) 48%, #efe7d4 100%);
@@ -49,6 +52,10 @@ body {
   color: inherit;
   display: flex;
   flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 
 .logo-main {
@@ -188,6 +195,31 @@ h2 {
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 22px;
+}
+
+.engine-sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -8px 0 22px;
+}
+
+.engine-sort[hidden] {
+  display: none !important;
+}
+
+.engine-sort label {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.engine-sort select {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 500;
 }
 
 .filter-btn {
@@ -400,6 +432,7 @@ h2 {
   background: #1c140a;
   color: #e9ddc3;
   border-top: 1px solid #4b3620;
+  bottom: 0;
 }
 
 .footer-inner {
@@ -487,6 +520,11 @@ h2 {
 
   .main-nav {
     gap: 12px;
+  }
+
+  .engine-sort {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .hero {

@@ -35,7 +35,14 @@
         <div class="category-filter" role="tablist" aria-label="Вкладки каталога">
           <button class="filter-btn active" data-filter="Оборудование" role="tab" aria-selected="true">Буровое оборудование</button>
           <button class="filter-btn" data-filter="Запчасти" role="tab" aria-selected="false">Запчасти</button>
+          <button class="filter-btn" data-filter="Двигатели" role="tab" aria-selected="false">Двигатели</button>
           <button class="filter-btn" data-filter="Услуги-буровой инструмент" role="tab" aria-selected="false">Буровой инструмент</button>
+        </div>
+        <div id="enginePurposeSortWrap" class="engine-sort" hidden>
+          <label for="enginePurposeSort">Сортировка по назначению двигателя:</label>
+          <select id="enginePurposeSort" aria-label="Сортировка по назначению двигателя">
+            <option value="all">Все назначения</option>
+          </select>
         </div>
         <div id="catalogGrid" class="catalog-grid"></div>
       </div>
