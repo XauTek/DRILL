@@ -291,6 +291,8 @@ const DEFAULT_PRODUCTS = PRODUCT_SECTIONS.flatMap((section) =>
 let products = [...DEFAULT_PRODUCTS];
 let currentFilter = "Оборудование";
 let currentEnginePurpose = "all";
+const SELECTED_PRODUCTS_STORAGE_KEY = "selectedProductIds";
+let selectedProductIds = new Set();
 
 const catalogGrid = document.getElementById("catalogGrid");
 const modal = document.getElementById("productModal");
@@ -312,6 +314,60 @@ function normalizeSpecs(specsRaw) {
     .split(";")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function loadSelectedProductsFromStorage() {
+  try {
+    const raw = localStorage.getItem(SELECTED_PRODUCTS_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(parsed)) return;
+
+    const validIds = new Set(products.map((item) => item.id));
+    selectedProductIds = new Set(parsed.filter((id) => validIds.has(id)));
+  } catch (error) {
+    selectedProductIds = new Set();
+  }
+}
+
+function saveSelectedProductsToStorage() {
+  localStorage.setItem(SELECTED_PRODUCTS_STORAGE_KEY, JSON.stringify([...selectedProductIds]));
+}
+
+function getSelectedProductsText() {
+  const selectedItems = [...selectedProductIds]
+    .map((id) => products.find((item) => item.id === id))
+    .filter(Boolean)
+    .map((item) => `${item.id} | ${item.category} | ${item.name}`);
+
+  return selectedItems.join("\n");
+}
+
+function syncSelectedProductsField() {
+  const selectedProductsInput = document.getElementById("selectedProducts");
+  if (selectedProductsInput) {
+    selectedProductsInput.value = getSelectedProductsText();
+  }
+}
+
+function renderSelectedProductsInfo() {
+  const infoElement = document.getElementById("selectedProductsInfo");
+  if (!infoElement) return;
+
+  const count = selectedProductIds.size;
+  infoElement.textContent = count > 0
+    ? `Выбрано товаров: ${count}. Добавляйте позиции в каталоге.`
+    : "Товары не выбраны. Добавьте нужные позиции в каталоге.";
+}
+
+function toggleProductSelection(id) {
+  if (selectedProductIds.has(id)) {
+    selectedProductIds.delete(id);
+  } else {
+    selectedProductIds.add(id);
+  }
+  saveSelectedProductsToStorage();
+  syncSelectedProductsField();
+  renderSelectedProductsInfo();
 }
 
 function toggleEngineSortVisibility() {
@@ -368,7 +424,12 @@ function renderProducts() {
           <h3 class="card-title">${item.name}</h3>
           <p class="card-desc">${item.description}</p>
           <p class="card-price">${formatPrice(item.price)}</p>
-          <button class="btn btn-primary" data-id="${item.id}">Подробнее</button>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-action="details" data-id="${item.id}">Подробнее</button>
+            <button class="btn btn-select ${selectedProductIds.has(item.id) ? "is-selected" : ""}" data-action="toggle-request" data-id="${item.id}">
+              ${selectedProductIds.has(item.id) ? "Убрать из заявки" : "Добавить в заявку"}
+            </button>
+          </div>
         </div>
       </article>
     `;
@@ -431,7 +492,14 @@ function initEvents() {
     catalogGrid.addEventListener("click", (event) => {
       const button = event.target.closest("button[data-id]");
       if (!button) return;
-      openModalById(button.dataset.id);
+      if (button.dataset.action === "details") {
+        openModalById(button.dataset.id);
+        return;
+      }
+      if (button.dataset.action === "toggle-request") {
+        toggleProductSelection(button.dataset.id);
+        renderProducts();
+      }
     });
   }
 
@@ -448,10 +516,18 @@ function initEvents() {
   });
 }
 
+function submitForm() {
+  syncSelectedProductsField();
+  return true;
+}
+
+window.submitForm = submitForm;
+
+loadSelectedProductsFromStorage();
 fillEnginePurposeSort();
 toggleEngineSortVisibility();
 renderProducts();
 initEvents();
-
-
+syncSelectedProductsField();
+renderSelectedProductsInfo();
 

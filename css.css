@@ -172,12 +172,6 @@ h2 {
   color: #f5ead2;
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
 .panel {
   background: var(--bg-soft);
   border: 1px solid var(--line);
@@ -314,6 +308,23 @@ h2 {
   filter: brightness(1.07);
 }
 
+.btn-select {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.btn-select:hover {
+  background: #f4ead6;
+  border-color: var(--gold);
+}
+
+.btn-select.is-selected {
+  background: var(--gold-deep);
+  color: #fff;
+  border-color: var(--gold-deep);
+}
+
 .file-input-wrap {
   margin-top: 12px;
   display: inline-flex;
@@ -353,6 +364,11 @@ h2 {
   background: #fffdf6;
   padding: 11px 12px;
   font-size: 1rem;
+}
+
+.card-actions {
+  display: grid;
+  gap: 8px;
 }
 
 .status {

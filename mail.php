@@ -1,32 +1,45 @@
-<?php 
+﻿<?php
 
 require_once('phpmailer/PHPMailerAutoload.php');
+
 $mail = new PHPMailer;
 $mail->CharSet = 'utf-8';
 
-$name = $_POST['fullName'];
-$phone = $_POST['phone'];
-$email = $_POST['email'];
+$name = isset($_POST['fullName']) ? trim($_POST['fullName']) : '';
+$phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
+$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+$selectedProducts = isset($_POST['selectedProducts']) ? trim($_POST['selectedProducts']) : '';
 
-//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+$nameSafe = htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$phoneSafe = htmlspecialchars($phone, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$emailSafe = htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$selectedProductsHtml = $selectedProducts !== ''
+    ? nl2br(htmlspecialchars($selectedProducts, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))
+    : 'Не выбраны';
 
-$mail->isSMTP();                                      
-$mail->Host = 'smtp.gmail.com';  																							// Specify main and backup SMTP servers
-$mail->SMTPAuth = true;                               
-$mail->Username = 'popovdanila054@gmail.com'; // Логин от почты с которой будут отправляться письма
-$mail->Password = 'efch kdml aqxt jlmg'; // Пароль приложения
-$mail->SMTPSecure = 'tls';                            
-$mail->Port = 587; 
+//$mail->SMTPDebug = 3;
 
-$mail->setFrom('popovdanila054@gmail.com'); //Откуда отпарвляются
-$mail->addAddress('popovdanila054@gmail.com'); //Куда отправляются
-$mail->isHTML(true);                                 
+$mail->isSMTP();
+$mail->Host = 'smtp.gmail.com';
+$mail->SMTPAuth = true;
+$mail->Username = 'popovdanila054@gmail.com';
+$mail->Password = 'efch kdml aqxt jlmg';
+$mail->SMTPSecure = 'tls';
+$mail->Port = 587;
+
+$mail->setFrom('popovdanila054@gmail.com');
+$mail->addAddress('popovdanila054@gmail.com');
+$mail->isHTML(true);
 
 $mail->Subject = 'Заявка с сайта';
-$mail->Body    = 'Оставлена новая заявка на звонок: <br>' .$name . ' оставил заявку. <br>Телефон: ' .$phone. '<br>Почта: ' .$email;
+$mail->Body = 'Оставлена новая заявка:<br><br>'
+    . 'ФИО: ' . $nameSafe . '<br>'
+    . 'Телефон: ' . $phoneSafe . '<br>'
+    . 'Почта: ' . $emailSafe . '<br><br>'
+    . 'Выбранные товары:<br>' . $selectedProductsHtml;
 $mail->AltBody = '';
 
-if(!$mail->send()) {
+if (!$mail->send()) {
     echo 'Error';
 } else {
     header('location: complete.html');
